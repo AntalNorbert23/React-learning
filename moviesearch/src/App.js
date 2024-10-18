@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import StarRating from './StarRating'
 import { useMovies } from "./useMovies";
 import { useLocalStorageState } from "./useLocalStorageState";
+import { useKey } from "./useKey";
 
 const tempMovieData = [
   {
@@ -209,27 +210,33 @@ function NumResults({movies}){
 function Search ({query,setQuery}){
   const inputElement= useRef(null);
 
-  useEffect(function(){
-
-    function callback(event){
-      if(document.activeElement === inputElement.current) return;
-
-      if(event.code === "Enter"){
+  useKey("Enter",function(){
+    if(document.activeElement === inputElement.current) return;
         inputElement.current.focus();
         setQuery('');
-      }
-    }
+  })
 
-    document.addEventListener('keydown',callback);
+  // useEffect(function(){
 
-    return () => document.addEventListener('keydown',callback);
-  },[setQuery]);
+  //   function callback(event){
+  //     if(document.activeElement === inputElement.current) return;
+
+  //     if(event.code === "Enter"){
+  //       inputElement.current.focus();
+  //       setQuery('');
+  //     }
+  //   }
+
+  //   document.addEventListener('keydown',callback);
+
+  //   return () => document.removeEventListener('keydown',callback);
+  // },[setQuery]);
 
   return <input
             className="search"
             type="text"
             placeholder="Search movies..."
-            va lue={query}
+            value={query}
             onChange={(e) => setQuery(e.target.value)}
             ref={inputElement}
           />
@@ -321,18 +328,20 @@ function MovieDetails({selectedId,onCloseMovie,onAddWatched,watched}){
     onCloseMovie();
   }
 
-  useEffect(function(){
-    function callback(event){
-      if(event.code ===" Escape"){
-        onCloseMovie();
-    }
-    }
-    document.addEventListener("keydown",callback)
+  useKey('Escape',onCloseMovie)
 
-    return function(){
-      document.removeEventListener("keydown",callback)
-    }
-  },[onCloseMovie]);
+  // useEffect(function(){
+  //   function callback(event){
+  //     if(event.code ===" Escape"){
+  //       onCloseMovie();
+  //   }
+  //   }
+  //   document.addEventListener("keydown",callback)
+
+  //   return function(){
+  //     document.removeEventListener("keydown",callback)
+  //   }
+  // },[onCloseMovie]);
 
   useEffect(function(){
       async function getMovieDetails(){
