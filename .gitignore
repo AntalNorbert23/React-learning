@@ -1,2 +1,5 @@
 travel-list/node_modules
 Tabs/node_modules
+.DS_store
+travel-list/.DS_Store
+travel-list/src/.DS_Store
