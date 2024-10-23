@@ -11,6 +11,8 @@ import FinishScreen from "./FinishScreen";
 import Footer from "./Footer.js";
 import Timer from "./Timer.js"
 
+const SECONDS_PER_QUESTION=30;
+
 const initialState={
   questions:[],
 
@@ -21,7 +23,7 @@ const initialState={
   answer:null,
   points:0,
   highscore:0,
-  secondsRemaining:10,
+  secondsRemaining:null,
 }
 
 function reducer (state,action) {
@@ -40,7 +42,8 @@ function reducer (state,action) {
     case 'start':
       return{
         ...state,
-        status:"active"
+        status:"active",
+        secondsRemaining:state.questions.length * SECONDS_PER_QUESTION
       };
     
     case 'newAnswer':
