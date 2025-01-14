@@ -1,5 +1,6 @@
 
 import supabase from "./supabase"
+import { supabaseUrl } from "./supabase";
 
 export async function getCabins(){
     
@@ -16,15 +17,24 @@ const { data, error } = await supabase
 }
 
 
-export async function createCabin(newCabin) {
+export async function createEditCabin(newCabin, id) {
+    console.log(newCabin,id)
+    const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl)
+
     const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll('/','')
 
-    const imagePath = `https://pcovmtxlyxpialltgqdq.supabase.co/storage/v1/object/public/cabins-images/${imageName}`
+    const imagePath = hasImagePath ? newCabin.image :`https://pcovmtxlyxpialltgqdq.supabase.co/storage/v1/object/public/cabins-images/${imageName}`
 
-    const { data, error } = await supabase
-        .from('cabins')
-        .insert([ {...newCabin, image: imagePath} ])
-        .select()
+    //create/edit cabin
+    let query = supabase.from('cabins')
+
+    // A) Create cabin if there is no cabin id (basically if there is no editing session going on )
+    if(!id) query = query.insert([ {...newCabin, image: imagePath} ])
+       
+    // B)
+    if(id) query = query.update({...newCabin, image: imagePath}).eq('id',id)
+
+    const {data, error} = await query.select().single();
 
     if(error){
         console.error(error);
