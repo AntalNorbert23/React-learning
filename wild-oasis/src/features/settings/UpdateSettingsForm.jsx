@@ -57,7 +57,7 @@ function UpdateSettingsForm(){
           type='number' 
           id='breakfast-price'  
           defaultValue={breakfastPrice}
-          onBlur={e=>handleUpdate(e,'breakfastPrice ')} 
+          onBlur={e=>handleUpdate(e,'breakfastPrice')} 
           disabled={isUpdating}
         />
       </FormRow>
