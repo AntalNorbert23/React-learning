@@ -1,4 +1,4 @@
-import Filter from 'ui/Filter';
+import Filter from '../../ui/Filter';
 
 function DashboardFilter() {
   return (
@@ -14,3 +14,4 @@ function DashboardFilter() {
 }
 
 export default DashboardFilter;
+3
