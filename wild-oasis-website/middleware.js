@@ -1,6 +1,14 @@
-import { NextResponse } from "next/server";
+/*import { NextResponse } from "next/server";
 
-export function middleware(request){
+export function middleware(request) {
+  console.log(request);
 
-    return NextResponse.redirect(new URL('/about', request.url))//where you want to go, current url
-}
+  return NextResponse.redirect(new URL("/about", request.url));
+}*/
+
+import { auth } from "@/app/_lib/auth";
+export const middleware = auth;
+
+export const config = {
+  matcher: ["/account"],
+};
